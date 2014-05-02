@@ -7,7 +7,7 @@ vpath %.c STM32L1xx_StdPeriph_Driver/src
 
 CFLAGS  = -g -O2 -Wall
 CFLAGS += -mlittle-endian -mthumb -mcpu=cortex-m0 -march=armv6s-m
-CFLAGS += -ffreestanding -nostdlib -DUSE_STDPERIPH_DRIVER
+CFLAGS += -ffreestanding -nostdlib
 #CFLAGS += -includestm32f0xx_conf.h -ICMSIS/Include -ICMSIS/Device/ST/STM32F0xx/Include -ISTM32F0xx_StdPeriph_Driver/inc
 CFLAGS += -ICMSIS/Include -ICMSIS/Device/ST/STM32L1xx/Include -ISTM32L1xx_StdPeriph_Driver/inc
 
