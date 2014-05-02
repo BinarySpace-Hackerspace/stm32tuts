@@ -1,5 +1,11 @@
 #include "stm32l1xx_conf.h"
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdarg.h>
+
+// RX = PA10
+// TX = PA9
 
 void usart_write(uint8_t ch)
 {
@@ -14,6 +20,30 @@ uint8_t usart_read(void){
         return (uint8_t)USART_ReceiveData(USART1);
 }
  
+
+void usart_print( char *msg )
+{
+	int len = strlen( msg );
+
+	for ( int c = 0; c < len; c++ )
+		usart_write( (uint8_t)*msg++ );
+}
+
+/*
+void usart_printf( const char* fmt, ... )
+{
+	va_list arg;
+	char buffer[256];
+
+	va_start( arg, fmt );
+	vsprintf( buffer, fmt, arg );
+	va_end(arg);
+
+	usart_print( buffer );
+
+}
+*/
+
 void delay( int a )
 {
 	volatile int i, j;
@@ -25,7 +55,8 @@ void delay( int a )
 } 
 
 int main(void) {
- 
+ 		int i = 10;
+
         GPIO_InitTypeDef gpio_init;
         USART_InitTypeDef usart_init;
         USART_ClockInitTypeDef usart_clk_init;
@@ -61,12 +92,10 @@ int main(void) {
         while (1) {   
 
 			delay(50000);
-			usart_write('B');
-
+			//usart_write('B');
+			usart_print( "Hello World\r\n" );
   		}
  
-		// RX = PA10
-		// TX = PA9
 
         return 0;
 }
