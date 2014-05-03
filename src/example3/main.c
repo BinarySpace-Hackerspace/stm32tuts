@@ -19,6 +19,14 @@ uint8_t usart_read(void){
      while ( USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == RESET);
         return (uint8_t)USART_ReceiveData(USART1);
 }
+
+uint8_t usart_available(void)
+{
+	if ( USART_GetFlagStatus(USART1, USART_FLAG_RXNE) == SET )
+		return 1;
+
+	return 0;		
+}
  
 
 void usart_print( char *msg )
@@ -91,9 +99,14 @@ int main(void) {
  
         while (1) {   
 
-			delay(50000);
-			//usart_write('B');
-			usart_print( "Hello World\r\n" );
+			if ( usart_available() ) // data available
+			{
+				usart_print( "Data Available: " );
+				uint8_t ch = usart_read();
+				usart_write(ch);
+				usart_print( "\r\n" );
+			}
+			
   		}
  
 
