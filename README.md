@@ -10,3 +10,5 @@ Code for the stm32 tutorials that run on STM32L-DISCOVERY
 **example 3** - uart example
 
 **example 4** - spi example (work in progress)
+
+**example 5** - onboard lcd example

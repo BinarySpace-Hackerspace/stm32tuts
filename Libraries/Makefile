@@ -15,7 +15,7 @@ SRCS = stm32l1xx_adc.c stm32l1xx_comp.c stm32l1xx_crc.c \
 	stm32l1xx_dac.c stm32l1xx_dbgmcu.c stm32l1xx_dma.c stm32l1xx_exti.c \
 	stm32l1xx_flash.c stm32l1xx_gpio.c stm32l1xx_i2c.c stm32l1xx_iwdg.c \
 	misc.c stm32l1xx_pwr.c stm32l1xx_rcc.c stm32l1xx_rtc.c \
-	stm32l1xx_spi.c stm32l1xx_syscfg.c stm32l1xx_tim.c \
+	stm32l1xx_spi.c stm32l1xx_syscfg.c stm32l1xx_tim.c stm32l1xx_lcd.c \
 	stm32l1xx_usart.c stm32l1xx_wwdg.c
 
 OBJS = $(SRCS:.c=.o)
