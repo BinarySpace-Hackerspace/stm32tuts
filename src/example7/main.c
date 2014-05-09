@@ -383,7 +383,6 @@ void LCD_GLASS_Init(void)
 {
   LCD_InitTypeDef LCD_InitStruct;
 
- 
   LCD_InitStruct.LCD_Prescaler = LCD_Prescaler_1;
   LCD_InitStruct.LCD_Divider = LCD_Divider_31;
   LCD_InitStruct.LCD_Duty = LCD_Duty_1_4;
@@ -480,7 +479,17 @@ void initTimer()
 
 int main(void)
 {
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_LCD,ENABLE);	
+
+  /* Enable HSI Clock */
+//  RCC_HSICmd(ENABLE);
+  
+  /*!< Wait till HSI is ready */
+//  while (RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
+
+  /* Set HSI as sys clock*/
+//  RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);
+
+	RCC_APB1PeriphClockCmd(RCC_APB1Periph_LCD | RCC_APB1Periph_COMP | RCC_APB1Periph_PWR ,ENABLE);	
 
 	LCD_GLASS_Configure_GPIO();
 	LCD_GLASS_Init();

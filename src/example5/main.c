@@ -453,17 +453,68 @@ void LCD_GLASS_ScrollSentence(uint8_t* ptr, uint16_t nScroll, uint16_t ScrollSpe
 
 }
 
+
+void RCC_Configuration(void)
+{  
+  /* Enable HSI Clock */
+  RCC_HSICmd(ENABLE);
+  
+  /*!< Wait till HSI is ready */
+  while (RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
+
+  /* Set HSI as sys clock*/
+  RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);
+  
+  /* Enable comparator, LCD and PWR mngt clocks */
+  // RCC_APB1Periph_COMP |
+  RCC_APB1PeriphClockCmd( RCC_APB1Periph_LCD | RCC_APB1Periph_PWR,ENABLE);
+    
+  /* Enable ADC & SYSCFG clocks */
+  RCC_APB2PeriphClockCmd(RCC_APB2Periph_ADC1 | RCC_APB2Periph_SYSCFG , ENABLE);
+
+  /* Allow access to the RTC */
+  PWR_RTCAccessCmd(ENABLE);
+
+  /* Reset RTC Backup Domain */
+  RCC_RTCResetCmd(ENABLE);
+  RCC_RTCResetCmd(DISABLE);
+
+  /* LSE Enable */
+  RCC_LSEConfig(RCC_LSE_ON);
+
+  /* Wait until LSE is ready */
+  while (RCC_GetFlagStatus(RCC_FLAG_LSERDY) == RESET);
+  
+   /* RTC Clock Source Selection */ 
+  RCC_RTCCLKConfig(RCC_RTCCLKSource_LSE); 
+  
+  /* Enable the RTC */
+  RCC_RTCCLKCmd(ENABLE);   
+  
+  /*Disable HSE*/
+  RCC_HSEConfig(RCC_HSE_OFF);
+  if(RCC_GetFlagStatus(RCC_FLAG_HSERDY) != RESET )
+  {
+    /* Stay in infinite loop if HSE is not disabled*/
+    while(1); 
+  }
+}
+
+
 int main(void)
 {
 
 	// | RCC_APB1Periph_PWR
 
-	RCC_APB1PeriphClockCmd(RCC_APB1Periph_LCD,ENABLE);	
-
+	//RCC_APB1PeriphClockCmd(RCC_APB1Periph_LCD | RCC_APB1Periph_PWR,ENABLE);	
+  RCC_Configuration();
+  
 	LCD_GLASS_Configure_GPIO();
 	LCD_GLASS_Init();
 
+
 	LCD_GLASS_ScrollSentence( "* Hello World *", 100, 50000);
+  //LCD_GLASS_DisplayString( "Test");
 
 	while (1)
 	{
