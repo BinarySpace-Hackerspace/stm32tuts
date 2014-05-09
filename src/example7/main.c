@@ -1,8 +1,14 @@
 #include "stm32l1xx_conf.h"
 #include <stdio.h>
+#include "mini-printf.h"
+
+/*
+
+  Setup Timer 2 and display seconds passing on the lcd
+
+*/
 
 int main(void);
-void delay(int a);
 
 char strDisp[20] ;
 
@@ -453,30 +459,54 @@ void LCD_GLASS_ScrollSentence(uint8_t* ptr, uint16_t nScroll, uint16_t ScrollSpe
 
 }
 
+/*
+  Clock: (8 Mhz / 3)
+*/
+
+void initTimer()
+{
+    RCC_APB1PeriphClockCmd(RCC_APB1Periph_TIM2, ENABLE);
+
+    TIM_TimeBaseInitTypeDef timerInitStructure; 
+    // trigger every ms
+    timerInitStructure.TIM_Prescaler = ((HSE_VALUE / 3) / 1000)-1;
+    timerInitStructure.TIM_CounterMode = TIM_CounterMode_Up;
+    // timer range (16bit value) - 10 seconds
+    timerInitStructure.TIM_Period = 10000-1;
+    timerInitStructure.TIM_ClockDivision = TIM_CKD_DIV1;
+    TIM_TimeBaseInit(TIM2, &timerInitStructure);
+    TIM_Cmd(TIM2, ENABLE);  
+}
+
 int main(void)
 {
-
-	// | RCC_APB1Periph_PWR
-
 	RCC_APB1PeriphClockCmd(RCC_APB1Periph_LCD,ENABLE);	
 
 	LCD_GLASS_Configure_GPIO();
 	LCD_GLASS_Init();
 
-	LCD_GLASS_ScrollSentence( "* Hello World *", 100, 50000);
+  initTimer();
+
+  int value = 5;
+
+  mini_snprintf( strDisp, 5,  "%d", value);
+  LCD_GLASS_DisplayString( strDisp );
+
+  int timerValue = 0;
+  int prevTimerValue = -1;
 
 	while (1)
 	{
+    timerValue = TIM_GetCounter(TIM2);
+
+    if ( timerValue != prevTimerValue )
+    {
+        mini_snprintf( strDisp, 10,  "%d", timerValue/1000);
+        if ( timerValue < prevTimerValue ) // overflowed
+          LCD_GLASS_Clear();
+        LCD_GLASS_DisplayString( strDisp );
+        prevTimerValue = timerValue;
+    }
 	}
 
-}
-
-void delay( int a )
-{
-	volatile int i, j;
-
-	for ( i = 0; i < a; i++ )
-	{
-		j++;
-	}
 }
