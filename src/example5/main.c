@@ -457,13 +457,13 @@ void LCD_GLASS_ScrollSentence(uint8_t* ptr, uint16_t nScroll, uint16_t ScrollSpe
 void RCC_Configuration(void)
 {  
   /* Enable HSI Clock */
-  RCC_HSICmd(ENABLE);
+  //RCC_HSICmd(ENABLE);
   
   /*!< Wait till HSI is ready */
-  while (RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
+  //while (RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
 
   /* Set HSI as sys clock*/
-  RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);
+  //RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);
   
   /* Enable comparator, LCD and PWR mngt clocks */
   // RCC_APB1Periph_COMP |
@@ -492,12 +492,12 @@ void RCC_Configuration(void)
   RCC_RTCCLKCmd(ENABLE);   
   
   /*Disable HSE*/
-  RCC_HSEConfig(RCC_HSE_OFF);
-  if(RCC_GetFlagStatus(RCC_FLAG_HSERDY) != RESET )
-  {
-    /* Stay in infinite loop if HSE is not disabled*/
-    while(1); 
-  }
+  //RCC_HSEConfig(RCC_HSE_OFF);
+  //if(RCC_GetFlagStatus(RCC_FLAG_HSERDY) != RESET )
+  //{
+//    /* Stay in infinite loop if HSE is not disabled*/
+    //while(1); 
+  //}
 }
 
 
