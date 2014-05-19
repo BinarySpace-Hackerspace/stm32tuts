@@ -7,6 +7,18 @@
 #ifndef __NOKIALCD_H
 #define __NOKIALCD_H
 
+/*
+1 vcc
+2 gnd
+3 sce
+4 rst
+5 d/c
+6 dn
+7 sclk
+8 led
+
+*/
+
 // GPIOA
 #define LCD_PIN_ENABLE      GPIO_Pin_12
 #define LCD_PIN_RESET       GPIO_Pin_11
