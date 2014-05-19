@@ -3,36 +3,28 @@
 
 int main(void);
 
-** do not use **
-
 void clockInit()
 {
-	// set flash latency
-	FLASH_SetLatency(FLASH_Latency_1);
+  // divide HCLK / 2
+  RCC_HCLKConfig(RCC_SYSCLK_Div2);
 
-	// enable hsi - 16Mhz
-	RCC_HSICmd(ENABLE);	
+  // enable HSI
+  RCC_HSICmd(ENABLE);
+  RCC_PLLCmd(DISABLE);
+  // wait for HSI to get ready
+  while (RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
 
-	while(RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET)
-	{		
-	}	
+  // configure PLL - x4 /2 
+  RCC_PLLConfig( RCC_PLLSource_HSI, RCC_PLLMul_8,  RCC_PLLDiv_4 );
+  RCC_PLLCmd(ENABLE);
 
+  while ( RCC_GetFlagStatus( RCC_FLAG_PLLRDY ) == RESET );
 
-	// start hsi clock (16Mhz)
-	// divide by 2, multiply by 4
-	// 32 Mhz Clock
-	RCC_PLLConfig( RCC_PLLSource_HSI, RCC_PLLMul_4,  RCC_PLLDiv_2 );
-	RCC_PLLCmd(ENABLE);
+  // set hsi as clock
+  //RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);
 
-	while ( RCC_GetFlagStatus( RCC_FLAG_PLLRDY ) == RESET ) 
-	{		
-	}
-
-	RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
-
-	RCC_HCLKConfig(RCC_SYSCLK_Div1);                                                           
-  	RCC_PCLK1Config(RCC_HCLK_Div1);                                                             
-  	RCC_PCLK2Config(RCC_HCLK_Div1);
+  // set pll as clock
+  RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
 }
 
 int main(void)

@@ -9,14 +9,42 @@ void TimingDelay_Decrement(void);
 void GPIO_Configuration(void);
 void delayms(uint32_t nTime);
 
+void EnableClock()
+{
+
+  // divide HCLK / 2
+  RCC_HCLKConfig(RCC_SYSCLK_Div2);
+
+  // enable HSI
+  RCC_HSICmd(ENABLE);
+  RCC_PLLCmd(DISABLE);
+  // wait for HSI to get ready
+  while (RCC_GetFlagStatus(RCC_FLAG_HSIRDY) == RESET);
+
+  // configure PLL - x4 /2 
+  RCC_PLLConfig( RCC_PLLSource_HSI, RCC_PLLMul_8,  RCC_PLLDiv_4 );
+  RCC_PLLCmd(ENABLE);
+
+  while ( RCC_GetFlagStatus( RCC_FLAG_PLLRDY ) == RESET );
+
+  // set hsi as clock
+  //RCC_SYSCLKConfig(RCC_SYSCLKSource_HSI);
+
+  // set pll as clock
+  RCC_SYSCLKConfig(RCC_SYSCLKSource_PLLCLK);
+}
+
 int main(void)
 {
   GPIO_Configuration();
+  EnableClock();
  
   // tick every ms
-  // Clock source PLL(HSE)
-  // PLL 3
-  SysTick_Config((HSE_VALUE / 3) / 1000); // Cannot exceed 16,777,215
+
+  RCC_ClocksTypeDef RCC_Clocks;
+  RCC_GetClocksFreq(&RCC_Clocks);
+
+  SysTick_Config((RCC_Clocks.SYSCLK_Frequency / 2) / 1000); // Cannot exceed 16,777,215
  
   /* Set SysTick Preemption Priority, it's a system handler rather than a regular interrupt */
   NVIC_SetPriority(SysTick_IRQn, 0x04);

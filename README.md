@@ -20,3 +20,5 @@ Note: This is our playground for learning the stm32 microcontrollers. Some of th
 **example 7** - timer2 example
 
 **example 8** - nokia 3310/5510 lcd example
+
+**example 9** - clock output (MCO) example
