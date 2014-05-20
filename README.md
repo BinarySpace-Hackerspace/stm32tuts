@@ -24,3 +24,5 @@ Note: This is our playground for learning the stm32 microcontrollers. Some of th
 **example 9** - clock output (MCO) example
 
 **example 10** - rtc calendar example
+
+**example 11** - timer2 interrupt example
