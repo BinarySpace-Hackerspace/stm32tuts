@@ -25,3 +25,7 @@
 *.map
 *.lst
 
+# Eclipse Project Files
+.settings
+.project
+.cproject

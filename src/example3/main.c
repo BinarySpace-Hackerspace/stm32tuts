@@ -1,4 +1,5 @@
 #include "stm32l1xx_conf.h"
+#include "stm32l1xx.h"
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
