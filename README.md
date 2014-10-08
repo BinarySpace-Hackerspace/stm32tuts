@@ -28,3 +28,5 @@ Note: This is our playground for learning the stm32 microcontrollers. Some of th
 **example 11** - timer2 interrupt example
 
 **example 12** - PWM output / fade an led using TIM2
+
+**example 13** - ADC 'analogRead' example / 
