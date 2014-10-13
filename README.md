@@ -32,3 +32,5 @@ Note: This is our playground for learning the stm32 microcontrollers. Some of th
 **example 13** - ADC 'analogRead' example / 
 
 **example 14** - Read ADC and fade an led using PWM
+
+**example 15** - servo control example using TIM2
